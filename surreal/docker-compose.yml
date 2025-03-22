@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    user: root
+    env_file:
+      - .env
+    command: start --log trace file:/data/database.db
+    ports:
+      - 8000:8000
+    volumes:
+      - data_volume:/data
+
+volumes:
+  data_volume:

@@ -1,0 +1,27 @@
+version: "3"
+services:
+  scylladb:
+    image: scylladb/scylla:latest
+    ports:
+      - "9042:9042"
+    environment:
+      - SCYLLA_CLUSTER_NAME=janusgraph
+      - SCYLLA_ENDPOINT_MODE=docker
+      - SCYLLA_DC=DC1
+      - SCYLLA_RACK=RAC1
+    volumes:
+      - scylla_data:/var/lib/scylla
+
+  janusgraph:
+    image: janusgraph/janusgraph:latest
+    ports:
+      - "8182:8182"
+    environment:
+      - JANUS_STORAGE_BACKEND=cql
+      - JANUS_STORAGE_HOSTNAME=scylladb
+      - JANUS_GRAPH_STORAGE_CQL_KEYSPACE=janusgraph
+    depends_on:
+      - scylladb
+
+volumes:
+  scylla_data:
