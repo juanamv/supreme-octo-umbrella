@@ -4,9 +4,14 @@ services:
   surrealdb:
     image: surrealdb/surrealdb:latest
     user: root
-    env_file:
-      - .env
-    command: start --log trace file:/data/database.db
+    # command: start --log trace file:/data/database.db
+    command:
+      - start
+      - --log=trace
+      - --user=root
+      - --pass=root
+      - file:/data/database.db
+    container_name: surrealdb
     ports:
       - 8000:8000
     volumes:

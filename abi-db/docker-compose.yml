@@ -1,9 +1,0 @@
-version: '3.8'
-
-services:
-  abi-db:
-    image: abi-db
-    ports:
-      - "55011:55011"
-    volumes:
-      - "./data:/app/dta/.db"
