@@ -1,0 +1,26 @@
+services:
+  cockroachdb:
+    container_name: crdb-single
+    hostname: cockroachdb
+    image: cockroachdb/cockroach:latest
+    ports:
+      - "26257:26257"
+      - "26080:8080"
+    command: start-single-node --insecure
+    volumes:
+      - ./data:/cockroach/cockroach-data
+    environment:
+      - COCKROACH_SKIP_ENABLING_DIAGNOSTIC_REPORTING=true
+      - COCKROACH_DATABASE=defaultdb
+      - COCKROACH_USER=root
+      - COCKROACH_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health?ready=1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  crdb_data:
+    driver: local
